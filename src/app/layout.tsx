@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const font = DM_Sans({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Fuzzie",
-  description: "SAAS Automation Builder",
+  description: "SAAS Automation Builder. Automate Your Work With Fuzzie.",
 };
 
 export default function RootLayout({
@@ -18,10 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={font.className}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
