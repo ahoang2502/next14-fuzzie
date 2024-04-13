@@ -91,7 +91,7 @@ export const Sidebar = () => {
         </div>
       </div>
 
-      <div className="flex items-center justify-center flex-col gap-8">
+      <div>
         <ModeToggle />
       </div>
     </nav>
