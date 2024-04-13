@@ -4,7 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import React from "react";
-import { Database, GitBranch, LucideMousePointerClick, Notebook } from "lucide-react";
+import {
+  Database,
+  GitBranch,
+  LucideMousePointerClick,
+  Notebook,
+} from "lucide-react";
 
 import {
   Tooltip,
@@ -14,6 +19,7 @@ import {
 } from "../ui/tooltip";
 import { menuOptions } from "@/lib/constants";
 import { Separator } from "../ui/separator";
+import { ModeToggle } from "../global/ModeToggle";
 
 export const Sidebar = () => {
   const pathName = usePathname();
@@ -86,7 +92,7 @@ export const Sidebar = () => {
       </div>
 
       <div className="flex items-center justify-center flex-col gap-8">
-        
+        <ModeToggle />
       </div>
     </nav>
   );
