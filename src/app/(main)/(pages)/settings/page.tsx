@@ -5,7 +5,7 @@ import { ProfilePicture } from "./_components/ProfilePicture";
 import { db } from "@/lib/db";
 
 const SettingsPage = () => {
-  const onUpload = () => {};
+  const uploadProfileImage = () => {};
 
   const removeProfileImage = async () => {
     "use server";
