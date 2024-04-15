@@ -2,6 +2,7 @@ import React from "react";
 
 import { Sidebar } from "@/components/sidebar";
 import { InfoBar } from "@/components/infobar";
+import { ModalProvider } from "@/providers/ModalProivder";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -10,7 +11,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
 
       <div className="w-full">
         <InfoBar />
-        {children}
+        <ModalProvider>{children}</ModalProvider>
       </div>
     </div>
   );
