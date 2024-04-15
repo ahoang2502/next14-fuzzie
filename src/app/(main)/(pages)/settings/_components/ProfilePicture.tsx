@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
@@ -28,8 +30,13 @@ export const ProfilePicture = ({ userImage, onDelete, onUpload }: Props) => {
       <div className="flex h-[30vh] flex-col items-center justify-center">
         {userImage ? (
           <>
-            <div className="relative h-full w-2/12 ">
-              <Image src={userImage} alt="user-image" fill />
+            <div className="relative h-full w-full">
+              <Image
+                src={userImage}
+                alt="user-image"
+                fill
+                className="object-contain"
+              />
             </div>
 
             <Button
@@ -41,7 +48,7 @@ export const ProfilePicture = ({ userImage, onDelete, onUpload }: Props) => {
             </Button>
           </>
         ) : (
-          <UploadCareButton />
+          <UploadCareButton onUpload={onUpload} />
         )}
       </div>
     </div>

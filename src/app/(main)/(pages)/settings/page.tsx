@@ -30,6 +30,21 @@ const SettingsPage = async () => {
     return response;
   };
 
+  const updateUserInfo = async (name: string) => {
+    "use server";
+
+    const updatedUser = await db.user.update({
+      where: {
+        clerkId: authUser.id,
+      },
+      data: {
+        name,
+      },
+    });
+
+    return updatedUser;
+  };
+
   const removeProfileImage = async () => {
     "use server";
 
@@ -65,7 +80,7 @@ const SettingsPage = async () => {
           userImage={user?.profileImage || ""}
           onUpload={uploadProfileImage}
         />
-        <ProfileForm />
+        <ProfileForm user={user} onUpdate={updateUserInfo} />
       </div>
     </div>
   );
