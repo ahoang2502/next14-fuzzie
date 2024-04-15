@@ -1,11 +1,34 @@
-import React from "react";
+import { currentUser } from "@clerk/nextjs";
 
+import { Loading } from "@/components/Loading";
 import { ProfileForm } from "@/components/forms/ProfileForm";
-import { ProfilePicture } from "./_components/ProfilePicture";
 import { db } from "@/lib/db";
+import { ProfilePicture } from "./_components/ProfilePicture";
 
-const SettingsPage = () => {
-  const uploadProfileImage = () => {};
+const SettingsPage = async () => {
+  const authUser = await currentUser();
+  if (!authUser) return <Loading />;
+
+  const user = await db.user.findUnique({
+    where: {
+      clerkId: authUser.id,
+    },
+  });
+
+  const uploadProfileImage = async (imageUrl: string) => {
+    "use server";
+
+    const response = await db.user.update({
+      where: {
+        clerkId: authUser.id,
+      },
+      data: {
+        profileImage: imageUrl,
+      },
+    });
+
+    return response;
+  };
 
   const removeProfileImage = async () => {
     "use server";
