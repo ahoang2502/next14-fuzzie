@@ -2,7 +2,7 @@ import React from "react";
 
 import { Sidebar } from "@/components/sidebar";
 import { InfoBar } from "@/components/infobar";
-import { ModalProvider } from "@/providers/ModalProivder";
+import { ModalProvider } from "@/providers/ModalProvider";
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   return (
