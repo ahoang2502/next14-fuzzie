@@ -1,6 +1,6 @@
 "use client";
 
-import { Dispatch } from "react";
+import { Dispatch, createContext, useContext, useReducer } from "react";
 
 import { EditorActions, EditorNodeType } from "@/lib/types";
 
@@ -100,7 +100,7 @@ const editorReducer = (
           edges: action.payload.edges,
         },
       };
-      
+
     case "SELECTED_ELEMENT":
       return {
         ...state,
@@ -114,6 +114,34 @@ const editorReducer = (
   }
 };
 
-export const EditorProvider = () => {
-  return <div>EditorProvider</div>;
+export type EditorContextData = {
+  previewMode: boolean;
+  setPreviewMode: (previewMode: boolean) => void;
+};
+
+export const EditorContext = createContext<{
+  state: EditorState;
+  dispatch: Dispatch<EditorActions>;
+}>({
+  state: initialState,
+  dispatch: () => undefined,
+});
+
+export const EditorProvider = ({ children }: { children: React.ReactNode }) => {
+  const [state, dispatch] = useReducer(editorReducer, initialState);
+
+  return (
+    <EditorContext.Provider value={{ state, dispatch }}>
+      {children}
+    </EditorContext.Provider>
+  );
+};
+
+export const useEditor = () => {
+  const context = useContext(EditorContext);
+
+  if (!context)
+    throw new Error("useEditor hook must be used within the Editor Provider");
+
+  return context;
 };
