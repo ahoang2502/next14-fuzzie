@@ -28,6 +28,7 @@ import { EditorCanvasCardType, EditorNodeType } from "@/lib/types";
 import { useEditor } from "@/providers/EditorProvider";
 import EditorCanvasCardSingle from "./EditorCanvasCardSingle";
 import { EditorLoader } from "@/components/icons";
+import { FlowInstance } from "./FlowInstance";
 
 type Props = {};
 
