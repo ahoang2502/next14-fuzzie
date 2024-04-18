@@ -2,16 +2,32 @@
 
 import { usePathname } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
-import ReactFlow, { ReactFlowInstance } from "reactflow";
+import ReactFlow, {
+  Background,
+  Connection,
+  Controls,
+  Edge,
+  EdgeChange,
+  MiniMap,
+  NodeChange,
+  ReactFlowInstance,
+  addEdge,
+  applyNodeChanges,
+} from "reactflow";
 import "reactflow/dist/style.css";
 import { toast } from "sonner";
 import { v4 } from "uuid";
 
-import { ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
+import { EditorCanvasDefaultCardTypes } from "@/lib/constants";
 import { EditorCanvasCardType, EditorNodeType } from "@/lib/types";
 import { useEditor } from "@/providers/EditorProvider";
 import EditorCanvasCardSingle from "./EditorCanvasCardSingle";
-import { EditorCanvasDefaultCardTypes } from "@/lib/constants";
+import { EditorLoader } from "@/components/icons";
 
 type Props = {};
 
@@ -26,6 +42,10 @@ const initialEdges: {
 export const EditorCanvas = ({}: Props) => {
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance>();
+  const [nodes, setNodes] = useState(initialNodes);
+  const [edges, setEdges] = useState(initialEdges);
+  const [isWorkFlowLoading, setIsWorkFlowLoading] = useState<boolean>(false);
+
   const { dispatch, state } = useEditor();
   const pathname = usePathname();
 
@@ -105,7 +125,49 @@ export const EditorCanvas = ({}: Props) => {
     event.dataTransfer.dropEffect = "move";
   }, []);
 
-  const onNodesChange = useCallback(() =>{},[])
+  const onNodesChange = useCallback(
+    (changes: NodeChange[]) => {
+      // @ts-ignore
+      setNodes((nds) => applyNodeChanges(changes, nds));
+    },
+    [setNodes]
+  );
+
+  const onEdgesChange = useCallback(
+    (changes: EdgeChange[]) =>
+      //@ts-ignore
+      setEdges((eds) => applyEdgeChanges(changes, eds)),
+    [setEdges]
+  );
+
+  const onConnect = useCallback(
+    (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
+    []
+  );
+
+  const handleClickCanvas = () => {
+    dispatch({
+      type: "SELECTED_ELEMENT",
+      payload: {
+        element: {
+          data: {
+            completed: false,
+            current: false,
+            description: "",
+            metadata: {},
+            title: "",
+            type: "Trigger",
+          },
+          id: "",
+          position: {
+            x: 0,
+            y: 0,
+          },
+          type: "Trigger",
+        },
+      },
+    });
+  };
 
   return (
     <ResizablePanelGroup direction="horizontal" className="">
@@ -115,22 +177,54 @@ export const EditorCanvas = ({}: Props) => {
             className="relative"
             style={{ width: "100%", height: "100%", paddingBottom: "70px" }}
           >
-            <ReactFlow
-              className="w-[300px]"
-              onDrop={onDrop}
-              onDragOver={onDragOver}
-              nodes={state.editor.elements}
-              onNodesChange={onNodesChange}
-              edges={edges}
-              onEdgesChange={onEdgesChange}
-              onConnect={onConnect}
-              onInit={setReactFlowInstance}
-              fitView
-              onClick={handleClickCanvas}
-              nodeTypes={nodeTypes}
-            ></ReactFlow>
+            {isWorkFlowLoading ? (
+              <EditorLoader />
+            ) : (
+              <ReactFlow
+                className="w-[300px]"
+                onDrop={onDrop}
+                onDragOver={onDragOver}
+                nodes={state.editor.elements}
+                onNodesChange={onNodesChange}
+                edges={edges}
+                onEdgesChange={onEdgesChange}
+                onConnect={onConnect}
+                onInit={setReactFlowInstance}
+                fitView
+                onClick={handleClickCanvas}
+                nodeTypes={nodeTypes}
+              >
+                <Controls position="top-left" />
+
+                <MiniMap
+                  position="bottom-left"
+                  className="!bg-background"
+                  zoomable
+                  pannable
+                />
+
+                <Background
+                  //   @ts-ignore
+                  variant="dots"
+                  gap={12}
+                  size={1}
+                />
+              </ReactFlow>
+            )}
           </div>
         </div>
+      </ResizablePanel>
+
+      <ResizableHandle />
+
+      <ResizablePanel defaultSize={40} className="relative sm:block">
+        {isWorkFlowLoading ? (
+          <EditorLoader />
+        ) : (
+          <FlowInstance edges={edges} nodes={nodes}>
+            <EditorCanvasSidebar nodes={nodes} />
+          </FlowInstance>
+        )}
       </ResizablePanel>
     </ResizablePanelGroup>
   );
