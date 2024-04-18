@@ -29,6 +29,7 @@ import { useEditor } from "@/providers/EditorProvider";
 import EditorCanvasCardSingle from "./EditorCanvasCardSingle";
 import { EditorLoader } from "@/components/icons";
 import { FlowInstance } from "./FlowInstance";
+import { EditorCanvasSidebar } from "./EditorCanvasSidebar";
 
 type Props = {};
 

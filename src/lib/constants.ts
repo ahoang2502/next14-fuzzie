@@ -1,4 +1,12 @@
-import { Category, Home, Logs, Payment, Settings, Templates, Workflows } from "@/components/icons";
+import {
+  Category,
+  Home,
+  Logs,
+  Payment,
+  Settings,
+  Templates,
+  Workflows,
+} from "@/components/icons";
 import { Connection } from "./types";
 
 export const clients = [...new Array(10)].map((client, index) => ({

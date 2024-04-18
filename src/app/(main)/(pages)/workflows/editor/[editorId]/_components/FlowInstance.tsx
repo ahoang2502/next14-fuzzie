@@ -6,7 +6,10 @@ import { toast } from "sonner";
 
 import { useNodeConnections } from "@/providers/ConnectionsProvider";
 import { Button } from "@/components/ui/button";
-import { onCreateNodesEdges, onFlowPublish } from "../_actions/workflow-connections";
+import {
+  onCreateNodesEdges,
+  onFlowPublish,
+} from "../_actions/workflow-connections";
 
 type Props = {
   children: React.ReactNode;
@@ -32,7 +35,7 @@ export const FlowInstance = ({ children, edges, nodes }: Props) => {
 
   const onPublishWorkFlow = useCallback(async () => {
     const response = await onFlowPublish(pathname.split("/").pop()!, true);
-    
+
     if (response) toast.message(response);
   }, []);
 
@@ -47,6 +50,8 @@ export const FlowInstance = ({ children, edges, nodes }: Props) => {
           Publish
         </Button>
       </div>
+
+      {children}
     </div>
   );
 };
