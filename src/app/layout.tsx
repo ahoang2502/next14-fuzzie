@@ -4,6 +4,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const font = DM_Sans({ subsets: ["latin"] });
 
@@ -30,6 +31,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
+            <Toaster />
           </ThemeProvider>
         </body>
       </html>
