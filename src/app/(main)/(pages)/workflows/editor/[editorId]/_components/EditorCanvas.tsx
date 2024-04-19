@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import ReactFlow, {
   Background,
   Connection,
@@ -170,6 +170,13 @@ export const EditorCanvas = ({}: Props) => {
       },
     });
   };
+
+  useEffect(() => {
+    dispatch({
+      type: "LOAD_DATA",
+      payload: { edges, elements: nodes },
+    });
+  }, [nodes, edges]);
 
   return (
     <ResizablePanelGroup direction="horizontal" className="">
