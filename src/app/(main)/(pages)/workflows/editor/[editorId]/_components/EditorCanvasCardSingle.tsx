@@ -47,11 +47,12 @@ function EditorCanvasCardSingle({ data }: { data: EditorCanvasCardType }) {
         }}
         className="relative max-w-[400px] dark:border-muted-foreground/70"
       >
-        <CardHeader className="flex flex-row items-center gap-4">
+        <CardHeader className="flex flex-row items-center gap-4 mt-2">
           <div className="">{logo}</div>
 
           <div className="">
             <CardTitle className="text-md">{data.title}</CardTitle>
+
             <CardDescription>
               <p className="text-xs text-muted-foreground/50">
                 <b className="text-muted-foreground/80">ID: </b>
@@ -63,7 +64,7 @@ function EditorCanvasCardSingle({ data }: { data: EditorCanvasCardType }) {
           </div>
         </CardHeader>
 
-        <Badge variant="secondary" className="absolute ring-2 top-2">
+        <Badge variant="secondary" className="absolute ring-2 top-2 left-7">
           {data.type}
         </Badge>
 

@@ -1,5 +1,7 @@
 "use server";
 
+import { auth } from "@clerk/nextjs";
+
 import { db } from "@/lib/db";
 
 export const onCreateNodesEdges = async (
@@ -34,4 +36,21 @@ export const onFlowPublish = async (workflowId: string, state: boolean) => {
 
   if (published.publish) return "Workflow published";
   return "Workflow unpublished";
+};
+
+export const getGoogleListener = async () => {
+  const { userId } = auth();
+
+  if (userId) {
+    const listener = await db.user.findUnique({
+      where: {
+        clerkId: userId,
+      },
+      select: {
+        googleResourceId: true,
+      },
+    });
+
+    if (listener) return listener;
+  }
 };
