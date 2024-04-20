@@ -18,6 +18,7 @@ import { EditorCanvasIconHelper } from "./EditorCanvasIconHelper";
 import { handleDragStart } from "@/lib/editor-utils";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { RenderConnectionAccordion } from "./RenderConnectionAccordion";
+import { RenderOutputAccordion } from "./RenderOutputAccordion";
 
 type Props = {
   nodes: EditorNodeType[];
@@ -90,10 +91,11 @@ export const EditorCanvasSidebar = ({ nodes }: Props) => {
               <AccordionTrigger className="!no-underline">
                 Action
               </AccordionTrigger>
-              {/* <RenderOutputAccordion
+              
+              <RenderOutputAccordion
                 state={state}
                 nodeConnection={nodeConnection}
-              /> */}
+              />
             </AccordionItem>
           </Accordion>
         </TabsContent>
