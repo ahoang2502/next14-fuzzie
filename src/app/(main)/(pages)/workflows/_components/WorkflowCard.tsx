@@ -1,5 +1,7 @@
 import React from "react";
 import Link from "next/link";
+import { toast } from "sonner";
+import Image from "next/image";
 
 import {
   Card,
@@ -7,9 +9,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Image from "next/image";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { onFlowPublish } from "../editor/[editorId]/_actions/workflow-connections";
 
 type Props = {
   name: string;
@@ -19,7 +21,14 @@ type Props = {
 };
 
 export const WorkflowCard = ({ name, description, id, isPublish }: Props) => {
-  const onPublishFlow = () => {};
+  const onPublishFlow = async (event: any) => {
+    const response = await onFlowPublish(
+      id,
+      event.target.ariaChecked === "false"
+    );
+
+    if (response) toast.message(response);
+  };
 
   return (
     <Card className="flex w-full items-center justify-between">
@@ -58,13 +67,13 @@ export const WorkflowCard = ({ name, description, id, isPublish }: Props) => {
 
       <div className="flex flex-col items-center gap-2 p-4">
         <Label htmlFor="airplane-mode" className="text-muted-foreground">
-          On
+          {isPublish! ? "On" : "Off"}
         </Label>
 
         <Switch
           id="airplane-mode"
-          // onClick={onPublishFlow}
-        //   defaultChecked={isPublish}
+          onClick={onPublishFlow}
+          defaultChecked={isPublish!}
         />
       </div>
     </Card>

@@ -15,6 +15,7 @@ export const postContentToWebHook = async (content: string, url: string) => {
 
     return { message: "failed request" };
   }
+  
   return { message: "String empty" };
 };
 
