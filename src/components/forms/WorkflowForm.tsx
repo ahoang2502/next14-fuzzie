@@ -3,6 +3,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
@@ -18,6 +19,8 @@ import {
 import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { useModal } from "@/providers/ModalProvider";
+import { onCreateWorkflow } from "@/app/(main)/(pages)/workflows/_actions/workflow-connections";
 
 type Props = {
   title?: string;
@@ -26,6 +29,7 @@ type Props = {
 
 export const WorkflowForm = ({ title, subTitle }: Props) => {
   const router = useRouter();
+  const { setClose } = useModal();
 
   const form = useForm<z.infer<typeof WorkflowFormSchema>>({
     mode: "onChange",
@@ -37,7 +41,16 @@ export const WorkflowForm = ({ title, subTitle }: Props) => {
   });
   const isLoading = form.formState.isLoading;
 
-  const onSubmit = () => {};
+  const onSubmit = async (values: z.infer<typeof WorkflowFormSchema>) => {
+    const workflow = await onCreateWorkflow(values.name, values.description);
+
+    if (workflow) {
+      toast.message(workflow.message);
+      router.refresh();
+    }
+
+    setClose();
+  };
 
   return (
     <Card className="w-full max-w-[650px] border-none">
