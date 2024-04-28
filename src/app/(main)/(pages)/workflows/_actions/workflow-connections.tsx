@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@clerk/nextjs";
+import { auth, currentUser } from "@clerk/nextjs";
 
 import { db } from "@/lib/db";
 import { Option } from "@/store";
@@ -156,3 +156,16 @@ export const onCreateNodeTemplate = async (
   }
 };
 
+export const onGetWorkflows = async () => {
+  const user = await currentUser();
+  
+  if (user) {
+    const workflow = await db.workflows.findMany({
+      where: {
+        userId: user.id,
+      },
+    });
+
+    if (workflow) return workflow;
+  }
+};

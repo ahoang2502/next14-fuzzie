@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { toast } from "sonner";
@@ -11,16 +13,21 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { onFlowPublish } from "../editor/[editorId]/_actions/workflow-connections";
+import { onFlowPublish } from "../_actions/workflow-connections";
 
 type Props = {
   name: string;
   description: string;
   id: string;
-  isPublish: boolean | null;
+  publish: boolean | null;
 };
 
-export const WorkflowCard = ({ name, description, id, isPublish }: Props) => {
+export const WorkflowCard = ({
+  name,
+  description,
+  id,
+  publish: isPublish,
+}: Props) => {
   const onPublishFlow = async (event: any) => {
     const response = await onFlowPublish(
       id,

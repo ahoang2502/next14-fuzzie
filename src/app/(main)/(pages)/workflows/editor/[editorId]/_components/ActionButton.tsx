@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { postContentToWebHook } from "@/app/(main)/(pages)/connections/_actions/discord-connection";
 import { onCreateNewPageInDatabase } from "@/app/(main)/(pages)/connections/_actions/notion-connection";
 import { postMessageToSlack } from "@/app/(main)/(pages)/connections/_actions/slack-connection";
-import { onCreateNodeTemplate } from "../_actions/workflow-connections";
+import { onCreateNodeTemplate } from "../../../_actions/workflow-connections";
 
 type Props = {
   currentService: string;

@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import {
   onCreateNodesEdges,
   onFlowPublish,
-} from "../_actions/workflow-connections";
+} from "../../../_actions/workflow-connections";
 
 type Props = {
   children: React.ReactNode;

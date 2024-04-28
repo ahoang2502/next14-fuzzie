@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import axios from "axios";
 
-import { getGoogleListener } from "../_actions/workflow-connections";
+import { getGoogleListener } from "../../../_actions/workflow-connections";
 import { Card, CardDescription } from "@/components/ui/card";
 import { CardContainer } from "@/components/global/3dContainer";
 import { Button } from "@/components/ui/button";
