@@ -1,6 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
+import axios from "axios";
+import { toast } from "sonner";
 
 import { ConnectionProviderProps } from "@/providers/ConnectionsProvider";
 import { EditorState } from "@/providers/EditorProvider";
@@ -39,6 +41,23 @@ export const ContentBasedOnTitle = ({
 }: Props) => {
   const { selectedNode } = newState.editor;
   const title = selectedNode.data.title;
+
+  useEffect(() => {
+    const reqGoogle = async () => {
+      const response: { data: { message: { files: any } } } = await axios.get(
+        "/api/drive"
+      );
+
+      if (response) {
+        console.log(response.data.message.files[0]);
+
+        toast.message("Fetched File");
+        setFile(response.data.message.files[0]);
+      } else toast.error("Something went wrong");
+    };
+    
+    reqGoogle();
+  }, []);
 
   //   @ts-ignore
   const nodeConnectionType: any = nodeConnection[nodeMapper[title]];
