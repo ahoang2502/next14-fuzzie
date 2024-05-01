@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
         redirect_uri: process.env.NOTION_REDIRECT_URI!,
       }),
     });
-    
+
     if (response) {
       const notion = new Client({
         auth: response.data.access_token,
@@ -45,10 +45,12 @@ export async function GET(req: NextRequest) {
       console.log(databaseId);
 
       return NextResponse.redirect(
-        `https://localhost:3000/connections?access_token=${response.data.access_token}&workspace_name=${response.data.workspace_name}&workspace_icon=${response.data.workspace_icon}&workspace_id=${response.data.workspace_id}&database_id=${databaseId}`
+        `${process.env.NEXT_PUBLIC_WEBSITE_URL}/connections?access_token=${response.data.access_token}&workspace_name=${response.data.workspace_name}&workspace_icon=${response.data.workspace_icon}&workspace_id=${response.data.workspace_id}&database_id=${databaseId}`
       );
     }
   }
 
-  return NextResponse.redirect("https://localhost:3000/connections");
+  return NextResponse.redirect(
+    `${process.env.NEXT_PUBLIC_WEBSITE_URL}/connections`
+  );
 }
